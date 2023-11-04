@@ -205,27 +205,63 @@ def Predict_CyberThreat_Type(request):
         y_pred = classifier.predict(X_test)
 
 
+        # data = [Name_of_Covered_Entity]
+        # vector1 = cv.transform(data).toarray()
+        # predict_text = classifier.predict(vector1)
+
+        # pred = str(predict_text).replace("[", "")
+        # pred1 = pred.replace("]", "")
+
+        # prediction = int(pred1)
+
+        # if prediction == 0:
+        #     val = 'Theft'
+        # elif prediction == 1:
+        #     val = 'Loss'
+        # elif prediction == 2:
+        #     val = 'Disclosure'
+        # elif prediction == 3:
+        #     val = 'Hacking'
+        # elif prediction == 4:
+        #     val = 'Improper Disposal'
+        # print(prediction)
+        # print(val)
         data = [Name_of_Covered_Entity]
+        print("data==>",data)
         vector1 = cv.transform(data).toarray()
-        predict_text = classifier.predict(vector1)
 
-        pred = str(predict_text).replace("[", "")
-        pred1 = pred.replace("]", "")
+        try:
+            if data== [''] or data is None:
+                val = ''  # Set val to an empty string if data is None
+            else:
+                vector1 = cv.transform(data).toarray()
+                predict_text = classifier.predict(vector1)
 
-        prediction = int(pred1)
+                pred = str(predict_text).replace("[", "")
+                pred1 = pred.replace("]","")
 
-        if prediction == 0:
-            val = 'Theft'
-        elif prediction == 1:
-            val = 'Loss'
-        elif prediction == 2:
-            val = 'Disclosure'
-        elif prediction == 3:
-            val = 'Hacking'
-        elif prediction == 4:
-            val = 'Improper Disposal'
-        print(prediction)
-        print(val)
+                prediction = int(pred1)
+                # val=""
+
+                if prediction == 0:
+                    val = 'Theft'
+                elif prediction == 1:
+                    val = 'Loss'
+                elif prediction == 2:
+                    val = 'Disclosure'
+                elif prediction == 3:
+                    val = 'Hacking'
+                elif prediction == 4:
+                    val = 'Improper Disposal'
+
+                print(prediction)
+                print(val)
+
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+            # Handle the error as needed
+            val = '_____'
+    
 
         Cyber_model.objects.create(Name_of_Covered_Entity=Name_of_Covered_Entity,
 State=State,
